@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.es.demo.demo.EsApp;
-import com.es.demo.demo.bean.Tests;
+import com.allen.demo.KafkaEsApp;
+import com.allen.demo.bean.Tests;
 import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
 import org.elasticsearch.action.admin.indices.create.CreateIndexResponse;
 import org.elasticsearch.action.admin.indices.get.GetIndexRequest;
@@ -40,7 +40,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import com.alibaba.fastjson.JSON;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = { EsApp.class }) // 指定启动类
+@SpringBootTest(classes = { KafkaEsApp.class }) // 指定启动类
 public class EsAppTest {
 
 	@Autowired
