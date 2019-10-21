@@ -2,6 +2,7 @@ package com.allen.demo.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
+import com.allen.demo.kafka.KafkaMsgProducerService;
 import com.allen.demo.response.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,9 @@ public class TestController {
 
     @Resource
     private RestHighLevelClient esClient;
+
+    @Resource
+    KafkaMsgProducerService kafkaMsgProducerService;
 
     /**
      * 测试：
@@ -79,6 +83,13 @@ public class TestController {
 
 
 
+        return Result.ok();
+    }
+
+    @PostMapping(value = "kafka")
+    @ResponseBody
+    public Result testKafka(@RequestBody JSONObject param){
+        kafkaMsgProducerService.sendMsgToKafka(param);
         return Result.ok();
     }
 

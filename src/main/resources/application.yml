@@ -48,3 +48,23 @@ es:
   high-rest-port: '9200'
   high-rest-schema: 'http'
 
+
+## 上传组建本身需要
+upload:
+  start: true
+  kafka:
+    servers: 127.0.0.1:19092
+    topic: test
+  pluginAlgorithmType: structure
+  pluginAlgorithmVendor: seemmo
+  convertFeatureAlgorithmVendor: seemmo
+  gangway:
+    corePoolSize: 200
+    maximumPoolSize: 300
+    queueSize: 500
+  job:
+    corePoolSize: 600
+    maximumPoolSize: 900
+    queueSize: 1500
+
+
