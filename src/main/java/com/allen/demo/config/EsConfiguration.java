@@ -16,17 +16,24 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class EsConfiguration {
 
-	private static String hosts = "127.0.0.1"; // 集群地址，多个用,隔开
-	private static int port = 9200; // 使用的端口号
-	private static String schema = "http"; // 使用的协议
+	// 集群地址，多个用,隔开
+	private static String hosts = "127.0.0.1";
+	// 使用的端口号
+	private static int port = 9200;
+	// 使用的协议
+	private static String schema = "http";
+
 	private static ArrayList<HttpHost> hostList = null;
-
-	private static int connectTimeOut = 1000; // 连接超时时间
-	private static int socketTimeOut = 30000; // 连接超时时间
-	private static int connectionRequestTimeOut = 500; // 获取连接的超时时间
-
-	private static int maxConnectNum = 100; // 最大连接数
-	private static int maxConnectPerRoute = 100; // 最大路由连接数
+	// 连接超时时间
+	private static int connectTimeOut = 1000;
+	// 连接超时时间
+	private static int socketTimeOut = 30000;
+	// 获取连接的超时时间
+	private static int connectionRequestTimeOut = 500;
+	// 最大连接数
+	private static int maxConnectNum = 100;
+	// 最大路由连接数
+	private static int maxConnectPerRoute = 100;
 
 	private RestClientBuilder builder;
 
@@ -47,7 +54,9 @@ public class EsConfiguration {
 		return client;
 	}
 
-	// 异步httpclient的连接延时配置
+	/**
+	 * 异步httpclient的连接延时配置
+	 */
 	public void setConnectTimeOutConfig() {
 		builder.setRequestConfigCallback(new RequestConfigCallback() {
 
@@ -64,7 +73,6 @@ public class EsConfiguration {
 	// 异步httpclient的连接数配置
 	public void setMutiConnectConfig() {
 		builder.setHttpClientConfigCallback(new HttpClientConfigCallback() {
-
 			@Override
 			public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
 				httpClientBuilder.setMaxConnTotal(maxConnectNum);

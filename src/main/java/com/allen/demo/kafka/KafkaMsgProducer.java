@@ -23,7 +23,7 @@ import java.util.concurrent.TimeUnit;
 @ConditionalOnProperty(name = "upload.start", havingValue = "true")
 @Component
 @Slf4j
-public class KafkaMsgProducerService implements ApplicationRunner {
+public class KafkaMsgProducer implements ApplicationRunner {
 
 
     static ThreadPoolExecutor executorGangway = null;
@@ -53,7 +53,7 @@ public class KafkaMsgProducerService implements ApplicationRunner {
         props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         producer = new KafkaProducer<String, String>(props);
-        log.info("upload service producer run,topic:" + topicName);
+        log.info("初始化kafka完成,topic:" + topicName);
 
     }
 
@@ -62,18 +62,14 @@ public class KafkaMsgProducerService implements ApplicationRunner {
         executorGangway.execute(new Runnable() {
             @Override
             public void run() {
-                long start = System.currentTimeMillis();
-                boolean result = false;
                 try {
                     String jsonResult = JSON.toJSONString(json);
                     long startKafka = System.currentTimeMillis();
-                    producer.send(new ProducerRecord<String, String>(topicName, jsonResult));
-                    log.info("pluginsUploadService send  data into kafka cost time:" + (System.currentTimeMillis() - startKafka));
+                    producer.send(new ProducerRecord<String, String>(topicName, "myApp",jsonResult));
+                    log.info("发送消息到topic:" + topicName + ",耗时：" + (System.currentTimeMillis() - startKafka));
                 } catch (Exception e) {
-                    log.error("pluginsUploadService upload analyze error:" + e.getMessage(), e);
+                    log.error("发送消息到topic:" + topicName + ",发送错误，error:" + e.getMessage(), e);
                 }
-                long end = System.currentTimeMillis();
-                log.info("pluginsUploadService analyze cost Time:" + (end - start) + "  result:" + result);
 
             }
         });
@@ -86,17 +82,10 @@ public class KafkaMsgProducerService implements ApplicationRunner {
     @Value("${upload.gangway.queueSize}")
     public int gangway_queueSize;
 
-    @Value("${upload.job.corePoolSize}")
-    public int job_corePoolSize;
-    @Value("${upload.job.maximumPoolSize}")
-    public int job_maximumPoolSize;
-    @Value("${upload.job.queueSize}")
-    public int job_queueSize;
-
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
         if (!start) {
-            log.info("pluginsUploadService service is not start");
+            log.info("kafka,topic" + topicName + ",未设置初始化启动>>>>>>>>>>");
             return;
         }
         kafka();
@@ -104,7 +93,7 @@ public class KafkaMsgProducerService implements ApplicationRunner {
                 5L, TimeUnit.MINUTES,
                 new ArrayBlockingQueue(gangway_queueSize));
 
-        log.info("pluginsUploadService service is  start config end");
+        log.info("kafka,topic" + topicName + ",初始化启动配置完成");
     }
 
 }

@@ -2,7 +2,7 @@ package com.allen.demo.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.allen.demo.kafka.KafkaMsgProducerService;
+import com.allen.demo.kafka.KafkaMsgProducer;
 import com.allen.demo.response.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -11,12 +11,9 @@ import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 
@@ -37,7 +34,7 @@ public class TestController {
     private RestHighLevelClient esClient;
 
     @Resource
-    KafkaMsgProducerService kafkaMsgProducerService;
+    KafkaMsgProducer kafkaMsgProducerService;
 
     /**
      * 测试：

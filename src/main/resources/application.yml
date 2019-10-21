@@ -37,6 +37,19 @@ spring:
     multipart:
       max-file-size: 2048MB
       max-request-size: 2048MB
+  kafka:
+    bootstrap-servers: 127.0.0.1:19092
+    listener:
+      ack-mode: record
+      concurrency: 1
+    consumer:
+      max-poll-records: 1
+    producer:
+      batch-size: 163840
+      acks: 0
+    properties:
+      linger.ms: 300
+      buffer.memory: 33554432
 
 logging:
   path: ./logs
@@ -55,9 +68,6 @@ upload:
   kafka:
     servers: 127.0.0.1:19092
     topic: test
-  pluginAlgorithmType: structure
-  pluginAlgorithmVendor: seemmo
-  convertFeatureAlgorithmVendor: seemmo
   gangway:
     corePoolSize: 200
     maximumPoolSize: 300
